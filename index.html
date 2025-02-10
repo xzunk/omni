@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Omni Antenna Design Tool - Calculate dimensions and build your own antenna">
+    <meta name="keywords" content="omni antenna, antenna design, RF engineering, antenna calculator, radio frequency, antenna measurement, RF design, DIY antenna">
+    <meta name="author" content="Your Name">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Omni Antenna Design Tool">
+    <meta property="og:description" content="Easily calculate and design an omni antenna with this free online tool. Get accurate measurements and build instructions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/omni-antenna-tool">
+    <meta property="og:image" content="https://yourwebsite.com/images/antenna-diagram.jpg">
+    <title>Omni Antenna Design Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <style>
+        body { padding: 20px; }
+        canvas { border: 1px solid #ccc; display: block; margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Omni Antenna Design Tool</h1>
+        <form id="antennaForm">
+            <label for="frequency">Frequency (MHz):</label>
+            <input type="number" id="frequency" name="frequency" required>
+            <label for="gain">Gain (dBi):</label>
+            <input type="number" id="gain" name="gain" required>
+            <button type="button" onclick="calculateAntenna()">Calculate</button>
+        </form>
+        <h2>Measurements</h2>
+        <p id="measurements"></p>
+        <h2>Diagram</h2>
+        <canvas id="antennaDiagram" width="400" height="400"></canvas>
+        <h2>Instructions</h2>
+        <p>Enter the frequency and gain to calculate the necessary dimensions for your omni antenna.</p>
+        <h2>Materials & Construction</h2>
+        <ul>
+            <li>Copper or aluminum tubing (for the radiating element)</li>
+            <li>Coaxial cable (for feeding the antenna)</li>
+            <li>Connector (such as an N-type or SMA connector)</li>
+            <li>Insulating material</li>
+            <li>Mounting hardware</li>
+        </ul>
+        <h3>Steps to Build:</h3>
+        <ol>
+            <li>Cut the radiating element to the calculated length.</li>
+            <li>Attach the element securely to the coaxial cable.</li>
+            <li>Ensure proper insulation between the element and ground.</li>
+            <li>Mount the antenna vertically in a suitable location.</li>
+            <li>Test the antenna performance using an SWR meter.</li>
+        </ol>
+    </div>
+    <script>
+        function calculateAntenna() {
+            const frequency = parseFloat(document.getElementById("frequency").value);
+            const gain = parseFloat(document.getElementById("gain").value);
+            
+            if (isNaN(frequency) || isNaN(gain) || frequency <= 0 || gain <= 0) {
+                alert("Please enter valid positive numbers for frequency and gain.");
+                return;
+            }
+            
+            const wavelength = 300 / frequency;
+            const elementLength = wavelength / 4;
+            
+            document.getElementById("measurements").innerText = `Wavelength: ${wavelength.toFixed(2)} m\nElement Length: ${elementLength.toFixed(2)} m`;
+            
+            drawAntennaDiagram(elementLength);
+        }
+        
+        function drawAntennaDiagram(elementLength) {
+            const canvas = document.getElementById("antennaDiagram");
+            const ctx = canvas.getContext("2d");
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.beginPath();
+            ctx.moveTo(200, 50);
+            ctx.lineTo(200, 350);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            
+            ctx.font = "16px Arial";
+            ctx.fillText("Omni Antenna", 150, 30);
+            ctx.fillText(`Element Length: ${elementLength.toFixed(2)}m`, 120, 380);
+        }
+    </script>
+</body>
+</html>
